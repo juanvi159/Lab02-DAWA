@@ -10,46 +10,44 @@ function Header(props){
 }
 function Content(props){
   return <div>
-            <Part part={props.part1}/>
-		        <Part part={props.part2}/>
-		        <Part part={props.part3}/>
+            {props.parts.map((part) => {
+			      return(<Part part={part}/>)})}
         </div>
 }
-function Total(props){
-  const {part1, part2, part3} = props
-  	const total = part1.exercises + part2.exercises + part3.exercises
-  	return(
-	    <div>
-	    	<p>Number of exercises {total}</p>
-	    </div>  
-  	)
+function Total({parts}){
+  const amount = (item) => {return item.exercises}
+  const sum = (prev, next) => {return prev + next}
+  const total = parts.map(amount).reduce(sum)
+  return(
+    <div>
+	    {parts.map}
+	    <p>Number of exercises {total} </p>
+    </div>  
+  )
 }
 const App = () => {
-  const course = 'Desarrollo de Aplicaciones Web Avanzado'
-  const part1 = {
-    name: 'Fundamentals of React',
-    exercises: 10
-  }
-  const part2 = {
-    name: 'Using props to pass data',
-    exercises: 7
-  }
-  const part3 = {
-    name: 'State of a component',
-    exercises: 14
-  }
+  const course = 'Desarrollo de Aplicaciones Web Avanzada'
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }
+  ]
   return (
     <div>
       <Header course={course}/>
-      <Content part1={part1}
-               part2={part2}
-               part3={part3}/>
-      <Total   part1={part1}
-               part2={part2}
-               part3={part3}/>
+      <Content parts={parts} />
+      <Total parts={parts} />
     </div>
   )
 }
-
 
 ReactDOM.render(<App />, document.getElementById('root'))
